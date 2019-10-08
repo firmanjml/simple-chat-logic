@@ -9,8 +9,6 @@ let Users = [
   }
 ];
 
-var currUser = Users.find((user) => user.id === 1);
-
 let Messages = [];
 
 let Conversation = [
@@ -21,10 +19,20 @@ let Conversation = [
 ]
 
 function switchUser(id) {
-  return Users.find((user) => {
+  const user = Users.find((user) => {
     return user.id == id
-  })
+  });
+
+  if (user) {
+    $("#username").html(user.username);
+  } else {
+    throw Error('invalid');
+  }
+
+  return user;
 }
+
+var currUser = switchUser(1);
 
 function createConversation(participantId) {
   let index = 1;
@@ -90,14 +98,8 @@ function viewMessages(conversationId) {
   });
 }
 
-
-createConversation(2);
-sendMessage(1, 'hello');
-sendMessage(1, 'hello world');
-
-createConversation(2);
-sendMessage(2, 'hello');
-sendMessage(1, 'hello test');
-
-
-console.log(JSON.stringify(viewMessages(2), null, 4))
+$("#switchUser").click(() => {
+  const id = $("#user").val();
+  switchUser(parseInt(id));
+  console.log('switched user to id ' + id)
+});
