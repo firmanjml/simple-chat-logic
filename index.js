@@ -7,6 +7,11 @@ let Users = [
     id: 2,
     username: "sabariah"
   }
+  ,
+  {
+    id: 3,
+    username: "misty"
+  }
 ];
 
 let Messages = [];
@@ -62,10 +67,16 @@ function sendMessage(conversationId, message) {
   }
 
   const convo = Conversation.find((c1) => {
-    return c1.id === conversationId;
+    return ((c1.id === conversationId));
   });
 
   if (convo === undefined || convo === null) {
+    throw Error('invalid');
+  }
+
+  const valid = convo.user.find((user) => user === currUser.id);
+  
+  if (valid === undefined || valid === null) {
     throw Error('invalid');
   }
 
