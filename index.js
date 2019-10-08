@@ -19,9 +19,10 @@ let Conversation = [
 ]
 
 function switchUser(id) {
-  const user = Users.find((user) => {
-    return user.id == id
+  const user = Users.find((u1) => {
+    return u1.id === parseInt(id);
   });
+
 
   if (user) {
     $("#username").html(user.username);
@@ -29,7 +30,7 @@ function switchUser(id) {
     throw Error('invalid');
   }
 
-  return user;
+  currUser = user;
 }
 
 var currUser = switchUser(1);
@@ -103,3 +104,13 @@ $("#switchUser").click(() => {
   switchUser(parseInt(id));
   console.log('switched user to id ' + id)
 });
+
+$("#sendMsg").click(() => {
+  const msg = $("#msg").val();
+
+  sendMessage(1, msg);
+})
+
+$("#getMessages").click(() => {
+  console.log(viewMessages(1));
+})
