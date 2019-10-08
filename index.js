@@ -6,8 +6,7 @@ let Users = [
   {
     id: 2,
     username: "sabariah"
-  }
-  ,
+  },
   {
     id: 3,
     username: "misty"
@@ -67,7 +66,7 @@ function sendMessage(conversationId, message) {
   }
 
   const convo = Conversation.find((c1) => {
-    return ((c1.id === conversationId));
+    return c1.id === conversationId;
   });
 
   if (convo === undefined || convo === null) {
@@ -108,6 +107,26 @@ function viewMessages(conversationId) {
   return Messages.filter((m1) => {
     return m1.conversationId === conversationId
   });
+}
+
+function addUserToConversation(conversationId, participantId) {
+  const convo = Conversation.find((convo) => {
+    return convo.id === conversationId;
+  })
+
+  if (convo === null || convo === undefined) {
+    throw Error('invalid');
+  }
+
+  const user = Users.find((u1) => {
+    return ((u1.id === participantId) && (u1.id !== currUser.id))
+  });
+
+  if (user === undefined || user === null) {
+    throw Error('invalid');
+  }
+
+  convo.user.push(user.id);
 }
 
 $("#switchUser").click(() => {
