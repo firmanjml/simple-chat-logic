@@ -1,0 +1,89 @@
+let Users = [
+  {
+    id: 1,
+    username: "firmanjml"
+  },
+  {
+    id: 2,
+    username: "sabariah"
+  }
+];
+
+var currUser = Users.find((user) => user.id === 1);
+
+let Messages = [];
+
+let Conversation = []
+
+function switchUser(id) {
+  return Users.find((user) => {
+    return user.id == id
+  })
+}
+
+function createConversation(participantId) {
+  let index = 1;
+  if (Conversation.length > 0) {
+    index = Conversation.length + 1;
+  }
+
+  const user = Users.find((u1) => {
+    return ((u1.id === participantId) && (u1.id !== currUser.id))
+  });
+
+  if (user === undefined || user === null) {
+    throw Error('invalid');
+  }
+
+  Conversation.push({
+    id: index,
+    user: [currUser.id, participantId]
+  })
+}
+
+function sendMessage(conversationId, message) {
+  let index = 1;
+  if (Messages.length > 0) {
+    index = Messages.length + 1;
+  }
+
+  const convo = Conversation.find((c1) => {
+    return c1.id === conversationId;
+  });
+
+  if (convo === undefined || convo === null) {
+    throw Error('invalid');
+  }
+
+  Messages.push({
+    id: index,
+    conversationId,
+    message,
+    sender: currUser
+  })
+}
+
+function viewMessages(conversationId) {
+  return Messages.filter((m1) => {
+    return m1.conversationId === conversationId
+  });
+}
+
+
+createConversation(2);
+sendMessage(1, 'hello');
+sendMessage(1, 'hello world');
+
+createConversation(2);
+sendMessage(2, 'hello');
+sendMessage(1, 'hello test');
+
+
+console.log(JSON.stringify(viewMessages(2), null, 4))
+
+
+
+
+
+
+
