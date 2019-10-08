@@ -30,7 +30,7 @@ function switchUser(id) {
     throw Error('invalid');
   }
 
-  currUser = user;
+  return user;
 }
 
 var currUser = switchUser(1);
@@ -101,7 +101,7 @@ function viewMessages(conversationId) {
 
 $("#switchUser").click(() => {
   const id = $("#user").val();
-  switchUser(parseInt(id));
+  currUser = switchUser(id);
   console.log('switched user to id ' + id)
 });
 
@@ -114,3 +114,5 @@ $("#sendMsg").click(() => {
 $("#getMessages").click(() => {
   console.log(viewMessages(1));
 })
+
+console.log(Messages.filter((msg) => msg.conversationId == 1))
