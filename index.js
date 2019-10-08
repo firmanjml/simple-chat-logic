@@ -13,7 +13,12 @@ var currUser = Users.find((user) => user.id === 1);
 
 let Messages = [];
 
-let Conversation = []
+let Conversation = [
+  {
+    id: 1,
+    user: [1, 2]
+  }
+]
 
 function switchUser(id) {
   return Users.find((user) => {
@@ -64,6 +69,22 @@ function sendMessage(conversationId, message) {
 }
 
 function viewMessages(conversationId) {
+  const convo = Conversation.find((convo) => {
+    return convo.id === conversationId;
+  })
+
+  if (convo === null || convo === undefined) {
+    throw Error('invalid');
+  }
+
+  const valid = convo.user.find((user) => {
+    return user === currUser.id; 
+  });
+
+  if (!valid) {
+    throw Error('invalid');
+  }
+
   return Messages.filter((m1) => {
     return m1.conversationId === conversationId
   });
@@ -80,10 +101,3 @@ sendMessage(1, 'hello test');
 
 
 console.log(JSON.stringify(viewMessages(2), null, 4))
-
-
-
-
-
-
-
